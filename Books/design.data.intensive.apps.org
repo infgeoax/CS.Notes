@@ -9,7 +9,7 @@
       - Search for a key requires keeping a sparse index in memory,
         which contains several keys and the offset to the SSTable
         segments on disk.
-      
+
       - Merging of SSTables: like merging sorted arrays. When the same
         key appear in two segments, keep the latest one (segments are
         timestamped)

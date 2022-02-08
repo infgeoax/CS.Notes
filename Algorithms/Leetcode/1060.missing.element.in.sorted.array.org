@@ -1,0 +1,15 @@
+#+title: Leetcode 1060. Missing Element in Sorted Array
+
+* Intuition
+  Given the restrictions, the number of missing element between index
+  $i < j$ can be calculated using formula: $nums[j] - nums[i] - j + i$.
+  Because
+
+1. The array is sorted and,
+2. All elements are unique.
+
+  To get the k-th missing number, we can binary search the missing
+  number count (which is non-decreasing according to its definition), and locate the
+  smallest index /i/ such that missing number between 0 and i inclusive is greater than or equal to k.
+
+  And the k-th missing element is $nums[i-1] + k - missing(i-1)$

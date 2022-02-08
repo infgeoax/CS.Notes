@@ -1,0 +1,20 @@
+#+title: Find a Peak Element II
+
+* Key point in the description
+  1. no two adjacent cells are equal, so either one is greater than another or the otherway around.
+   
+* O(M*N) algorithm
+  One approach is to search the peak element by following an increasing path. Either DFS or BFS will do, remember to only expand on the elements that's greater
+  than the current element.
+
+* O(M*log(N)) algorithm
+  Inspired by Find a Peak Element in 1-D array, which can be solved using binary search.  For an 2D array, if we want to do binary search to eliminate half of
+  the search space, we need to be sure that there exists an element in the remaining half that's greater than a whole row or column.
+
+  For example if we want to binary search on the rows, we find the max element in the mid row, and if that element is not a peak itself, we go to the half where
+  its neighbour is greater than this max element.
+
+  The reason being, if the neighbour element is the max element in its own row, then it is either a peak or we can continue the search to the neighbour's
+  neighbour (like in 1-D scenario). And if the neighbour is not the max element, then the max element is greater than the neighbour and it will be greater than
+  all elements in the current mid row. Either way, we can discard half of the search space.
+  

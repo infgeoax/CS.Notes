@@ -3,18 +3,24 @@
 * Chapter 3. Storage and Retrieval
 ** Data Structures
 *** SSTables, Memtables and LSM-Trees
-    - SSTable: Sorted String Table, keys are sorted inside each segment of the SSTable.
+    - SSTable: Sorted String Table, keys are sorted inside each
+      segment of the SSTable.
 
-      - Search for a key requires keeping a sparse index in memory, which contains several keys and the offset to the SSTable
+      - Search for a key requires keeping a sparse index in memory,
+        which contains several keys and the offset to the SSTable
         segments on disk.
       
-      - Merging of SSTables: like merging sorted arrays. When the same key appear in two segments,
-        keep the latest one (segments are timestamped)
+      - Merging of SSTables: like merging sorted arrays. When the same
+        key appear in two segments, keep the latest one (segments are
+        timestamped)
 
-      - Writing are made to a Memtable, an in-memory tree structure (RB-tree or AVL tree) to keep the keys sorted.
-        When the memtable grows too big, write it to disk, which beomes the latest segment of the SS table.
+      - Writing are made to a Memtable, an in-memory tree structure
+        (RB-tree or AVL tree) to keep the keys sorted.  When the
+        memtable grows too big, write it to disk, which beomes the
+        latest segment of the SS table.
 
-        A write log is also written to the disk to handle system crash. Log file is used to recover the memtable.
+        A write log is also written to the disk to handle system
+        crash. Log file is used to recover the memtable.
 
       - Comparing with B-Tree:
         - B-Tree have better reading performance(?)
@@ -22,21 +28,34 @@
     - LSM-Tree: Log-Structured Merge-Tree
     - Used by LevelDB, RocksDB and Cassandra
     - Performance Optimizations
-      - Determining whether a key exists can be slow: need to look at segments to the oldest one.
-        Usually use Bloom filters to speed up the query process.
+      - Determining whether a key exists can be slow: need to look at
+        segments to the oldest one.  Usually use Bloom filters to
+        speed up the query process.
 *** B-Trees
-    
+    - Fixed sized pages (usually 4k) that can be referenced using a
+      pointer to disk.  Each page can be identified by an address,
+      allowing other pages to reference it.
+    - This kind of page reference allows us to build a tree of pages.
+*** Other Index
+    - "Clustered index": index contains the indexed row
+      directly. e.g. Primary key in MySQL InnoDB storage engine.
 *** Bloom filters
 **** Features
-    - Memory efficient, probablistic data structure for testing if an element appear in a set.
-      False-positives are possible: query returns "possibly in set" or "definitely not in set".
-    - Elements can be added to set, but not removed. (addressed with the couting Bloom filter).
+    - Memory efficient, probablistic data structure for testing if an
+      element appear in a set.  False-positives are possible: query
+      returns "possibly in set" or "definitely not in set".
+    - Elements can be added to set, but not removed. (addressed with
+      the couting Bloom filter).
     - The more items, the higher the possibility of false positive.
 **** The Algorithm
-     A bloom filter consists of a bit array of /m/ bits, all set to 0 initially, and /k/ different hash functions, each
-     maps some element to one of the m array positions.
+     A bloom filter consists of a bit array of /m/ bits, all set to 0
+     initially, and /k/ different hash functions, each maps some
+     element to one of the m array positions.
 
-     - Add an element: feed it to each of the /k/ hash functions to get /k/ array positions. Set the bits at all these positions
-       to -1-.
-     - Query: feed it to each of the /k/ hash functions to get /k/ array positions. If any of the positions is 0, the element
-       is definitely not in the set.
+     - Add an element: feed it to each of the /k/ hash functions to
+       get /k/ array positions. Set the bits at all these positions to
+       -1-.
+       
+     - Query: feed it to each of the /k/ hash functions to get /k/
+       array positions. If any of the positions is 0, the element is
+       definitely not in the set.

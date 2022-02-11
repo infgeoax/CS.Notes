@@ -1,0 +1,28 @@
+#+title: Permutation in String
+
+* Sliding window + character counts
+
+  "A permutation of string s1" means we don't care about the order of
+  the characters. If a substring of s2 contains the same number of
+  each character in s1, there will be a permutation of those
+  characters that equal to s1. We use a sliding window to look for
+  this substring.
+
+  #+begin_src C++
+     bool checkInclusion(string s1, string s2) {
+       int m = s1.length();
+       int n = s2.length();
+       if (m > n) return false;
+
+       vector<int> c1(26, 0), c2(26, 0);
+       for (auto ch : s1) c1[ch-'a']++;
+
+       int l = 0, r = 0;
+       while (r < n) {
+         c2[s2[r++] - 'a']++;
+         if (r - l > m) c2[s2[l++] - 'a']--;
+         if (c1 == c2) return true;
+       }
+       return false;
+    }
+  #+end_src

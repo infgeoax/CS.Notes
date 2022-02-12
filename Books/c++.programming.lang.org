@@ -1,0 +1,103 @@
+#+title: The C++ Programming Language 4th Edition
+
+* Ch6. Types and Declarations
+  1. =size_t=
+     
+     Defined in header <cstddef>;
+     Implementation-defined unsigned integer type;
+     Can hold the size in bytes of every object.
+     
+  2. =ptrdiff_t=
+
+     Defiend in header <cstddef>;
+     Hold the result of subtracting two pointers (to get a number of elements)
+
+  3. Alignment*
+
+     On some machines, the bytes used to hold an object must have proper *alignment* for the hardward to access it efficiently.
+     This can affect object layouts: structs sometimes contains "holes" to improve alignment.
+
+     The =alignof= returns the alignment of its argument expression.
+
+  4. Type declaration
+
+     1. =char *kings[]= array of pointers to char (prefix binds tighter than postfix)
+        =char (*kings)[]= pointer to a char array.
+
+  5. Initialization
+
+     Four syntaxes to use initializer:
+
+     ={}= /list initialization/ does not allow narrowing. e.g. An integer cannot be converted to another integer that cannot hold its value, =char= to =int= is
+     ok, but not =int= to =char=. Floating point and integer values cannot be converted to each other.
+
+     #+BEGIN_SRC C++
+       X a1 {v}; // Only this style can be used in every context. Except when using together with auto.
+       X a2 = {v};
+       X a3 = v;
+       X a4(v);
+
+       auto z1 {99}; // z1 is an initializer_list<int>
+     #+END_SRC
+
+  6. Deducing a Type
+     1. =auto= to deduce the type of an object from its initializer.
+
+     2. =decltype= for deducing the type of something that's not a initializer.
+        E.g. An operator that adds two matrices of different element type together.
+        Note it's using suffix return type syntax =auto f(T, U) -> type=
+
+        #+begin_src C++
+          template<class T, class U>
+          auto operator+(const Matrix<T>& a, const Matrix<U>& b) -> Matrix<decltype(T{}+U{})>;
+        #+end_src
+
+  7. Lvalues and Rvalues
+     1. =lvalue=
+        : an expression that refres to an object - a contiguous region of memory.
+
+     2. =rvalue=
+        : not an lvalue. e.g. temporary value (returned by a function)
+
+     3. Two properties of an object when it comes to addressing, copying and moving:
+        1. Has identity (i): program has a name of, pointer to, or reference to the object. So there's a way to determine if two objects are the same, or has the
+           object been modified yet.
+
+        2. Movable (m): The object can be moved from.
+
+        3. Three out of four combinations of the two properties are useful in describing the C++ rules:
+           - lvalue: i and !m
+
+           - xvalue: i and m (extraordinary/exper only)
+
+           - glvalue: i (generalized lvalue)
+
+           - rvalue: m
+
+           - prvalue: !i and m (pure rvalue)
+
+  8. Object lifetimes
+     - /Automatic/: Objects declared in a function, created on definition and destroyed when its name goes out of scope. Usually allocated on stack.
+
+     - /Static/: Objects declared in global or namespace scope and =static= declared in functions or classes. Created once and live until program terminates.
+
+     - /Free store/: Objects created by =new= and destroyed by =delete=. Programmers can control its life time.
+
+     - /Temporary objects/: intermediate results in a computation or an object used to hold a value for a reference to =const= argument.
+
+     - /Thread-local/ objects declared =thread_local=: created when their thread is created and destroyed with the thread.
+
+  9. Type Alias
+     - =using= keyword can be used to introduce alias for an existing type:
+
+       #+begin_src c++
+       using Pchar = char*;
+       // or template alias
+       template<typename T>
+       using Vector = std::vector<T, My_allocator<T>>;
+
+       Vector<int> nums; // vector using My_allocator<T>.
+       #+end_src
+
+* Ch7. Pointers, Arrays and Referneces
+  

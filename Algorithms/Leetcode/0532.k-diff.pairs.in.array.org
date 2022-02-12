@@ -1,0 +1,32 @@
+#+title: K-diff Pairs in an Array
+
+* Analysis
+
+  One naive approach would be to iterate through each pair of the array elements and see if their abs diff is /k/, which has time complexity of $O(n^2)$.
+
+  To improve on this basic algorithm, we can ask some questions.
+
+  1. Is there a way to efficiently iterate through the pairs? 
+
+  2. How can we quickly check if an element has a pair element in the array that satisfies the diff condition? Of course, a set can answer this
+  question efficiently. If we put elements we have already seen in a set, for a new value x, we can easily tell if $x-k$ or $x+k$ is in the set. Now the tricky
+  part is that we cannot count the same pair twice, (1, 2) and (2, 1) are the same, and if we see x twice or more, we can only increase the counter once. To
+  remove the duplicates we can use another set to record all the pairs that we have already counted. Now, to reduce the space complexity, we only remember the
+  larger/smaller number of the pair, because the pair always differ by /k/, remember only the larger or smaller element is enough - but be consistent.
+
+  
+
+* Approach 1: Two pointers
+
+  Sort the array and have two pointers start from left=0 and right=1 respectively.  Whenever the left >= right or nums[right] - nums[left] < k, we increase
+  right by 1.  And if nums[right]-nums[left] > k, we increase left.  And if it equals k, we incrase result and left, note we also need to skip all the elements
+  that equals to left to avoid duplicates - in this process left may become greater than right.
+
+* Approach 2: Two hash sets
+
+  One hash set to remember the elements we have already seen, this serves as a place to look up x + k or x - k. Another set to remember the pairs that we
+  already counted - note the special conditions in this problem allow us to only remember the larger or smaller element in the pair.
+
+* Approach 3: Hash map
+
+  Count frequencies of each number in the array and iterate through the keys.

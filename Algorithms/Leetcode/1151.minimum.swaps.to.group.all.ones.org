@@ -1,0 +1,24 @@
+#+title: Minimum Swaps to Group All 1's Together
+
+* Sliding window + count number of 1's
+
+  The idea is, since we are grouping all 1's together, the final result would be a region of the length of the total number of ones in the array. If we find a region of this length
+  with the maximum number of 1's, the swaps needed to move the other 1's into this region will be minimum.
+
+  #+begin_src c++
+    int minSwaps(vector<int>& data) {
+        int n = data.size();
+        int ones = accumulate(begin(data), end(data), 0);
+        // No need to swap for trivial cases: zero, one, or n 1's.
+        if (ones <= 1 || ones == n) return 0;
+
+        int curOnes = 0, maxOnes = 0, l = 0, r = 0;
+        while (r < n) {
+            curOnes += data[r++];
+            if (r - l > ones) curOnes -= data[l++];
+            maxOnes = max(maxOnes, curOnes);
+        }
+
+        return ones - maxOnes;
+    }
+  #+end_src

@@ -1,0 +1,15 @@
+#+title: Subarray Sum Equals K
+
+* Analysis
+
+  The presence of negative values means we cannot use sliding window, as we will not have a signal to shrink the window. E.g. the sum may go lower than k but we
+  are not sure if in the future it will sum back to k again.
+
+  Brute-force won't work on large inputs nums.length can be as big as 20000, which means 200 million additions.
+
+  The intuition needed to come up with the optimal solution is this: for cumulative sums from 0 to i and j, where i < j, if $sum_j - sum_i = k$, then the sum of
+  the subarray (i, j] is k. In other words, for a given index j, if we count the frequency of the cummulative sums from 0 to j - 1 that equals to $sum_j - k$, we know
+  how many index i that's less than j and has subarray sub (i, j] equals k.
+  
+* Solution 1: HashMap + Cumulative Sum
+

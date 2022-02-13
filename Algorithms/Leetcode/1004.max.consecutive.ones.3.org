@@ -1,0 +1,75 @@
+#+title: Max Consecutive Ones III
+
+Given a binary array =nums= and an integer =k=, return the maximum number of consecutive 1's in the array if you can flip at most =k= 0's.
+
+
+* Binary search on the length of consecutive ones?
+
+  For any given length =m=:
+  
+  1. If we can flip at most =k= 0's to get =m= consecutive ones, the answer is greater than or equal to =m=.
+  2. Otherwise if we cannot do that, in other words, the minimum number of 0's in any of the sub-arrays of length =m= is greater than =k=, then the answer is less than =m=.
+
+** Code
+
+   #+begin_src C++
+     int n;
+     int longestOnes(vector<int>& nums, int k) {
+         n = nums.size();
+         int l = 0, r = n;
+         while(l <= r) {
+             int mid = l + (r - l)/2;
+             int mz = minZeros(nums, mid);
+             if (mz <= k) {
+                 l = mid + 1;
+             } else {
+                 r = mid - 1;
+             }
+         }
+         return l - 1;
+     }
+     int minZeros(vector<int>& nums, int len) {
+         int mz = len;
+         int cur = 0;
+         int l = 0, r = 0;
+         while (r < n) {
+             cur += 1 - nums[r++];
+             if (r - l > len) {
+                 cur -= 1 - nums[l++];
+             }
+             if (r - l == len) mz = min(mz, cur);
+         }
+         return mz;
+     }
+   #+end_src
+
+** Time complexity $O(n*log(n))$
+
+* Can we do linear time complexity?
+
+  Going back to the problem, we can choose at most =k= 0's to flip to get the longest consecutive 1's, which means we cannot skip a 0 when doing the flip -
+  otherwise the 1's won't be consecutive. This reduces the possible ways to flip 0's from $C(m, k)$ to $m - k$. Now consider a sliding window on =k= zeros, we
+  can iterate through all the possible windows and return the one that results in the longest consecutive 1's.
+
+  Note: integers can be different type and cannot appear in an expression.
+
+  #+begin_src C++
+    int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> zeros;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) zeros.push_back(i);
+        }
+        int m = zeros.size();
+        if (m <= k) return n;
+        int ans = 0;
+        for (int i = k - 1; i < m; ++i) {
+            int l = i >= k ? zeros[i - k] ? -1;
+            int r = i < m - 1 ? zero[i + 1] ? n; // should be n (the end of nums, not m the end of zero index array)
+            ans = max(ans, r - l - 1);
+        }
+        return ans;
+    }
+  #+end_src
+
+  

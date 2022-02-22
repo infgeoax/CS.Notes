@@ -100,4 +100,76 @@
        #+end_src
 
 * Ch7. Pointers, Arrays and Referneces
-  
+  1. =nullptr=
+     Represent a point that points to nothing, can be assigned to any pointer type.
+
+     Standard conversions allow =0= to be used as a constant of pointer or pointer-to-member type.
+
+  2. Arrays
+
+     Given type =T=, =T[size]= is the type array of size elements of type T. Subscript operator =[]= can be used to access an array element, or use a pointer.
+
+     #+begin_src C++
+     void f() {
+         int aa[10];
+         aa[6] = 9; // assign aa's 7th element
+         int x = aa[99]; // undefined behaviour
+     }
+     #+end_src
+
+     *There's no array assignment, and the name of an array implicitly converts to a pointer to its first element (at the slightest provocation).*
+
+     C++ string literals are 0-terminated char arrays.
+
+  3. Initializing arrays
+
+     #+begin_src C++
+     int v1[] = {1, 2, 3, 4 };
+     char v2[] = {'a', 'b', 'c', 0};
+     int v3[2] = {1, 2, 3}; // error, too many initializers
+     int v5[8] = {1,2,3,4}; // ok, rest elements are set to 0.
+     #+end_src
+
+     *You cannot initialize one array with another.*
+
+     #+begin_src C++
+     int v6[8] = v5; // error: can't copy an array (cannot assign int* to an array)
+     v6 = v6; // error: no array assignment.
+     #+end_src
+
+  4. String literals
+
+     Type: char array of appropriate size, terminated with 0.
+
+     Statically allocated, so safe to return from a function.
+
+  5. Raw string literals
+
+     #+begin_src C++
+     string s = R"(\w\\w)";
+     string t = R"**(1
+     22
+     333)**"; // equivalent to "1\n22\n333"
+     #+end_src
+
+  6. Larger character sets
+
+     String prefix =L""= represents a string of wide characters.
+
+     #+begin_src C++
+     const wchar_t w[] = L"angst";
+     #+end_src
+
+     Six string prefixes for unicode string literals.
+
+     #+begin_src C++
+       u8""; // utf-8
+       u""; // utf-16
+       U""; // utf-32
+     #+end_src
+
+  7. Pointers into Arrays
+
+     - We can have pointer to one-beyond the last element of the array, but not more. Besides, such a pointer can only be used to compare with other pointers to get number of elements.
+
+  8. reinterpret_cast<T>

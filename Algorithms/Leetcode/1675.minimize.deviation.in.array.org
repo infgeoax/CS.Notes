@@ -1,0 +1,24 @@
+#+title: Minimize Deviation in Array
+
+Array of positive integers, can do as many transformations as possible on any element:
+
+1. If it's even, divide by 2
+2. If it's odd, multiply by 2
+
+Deviation is defined as the maximum difference between any two elements in the array
+
+Return the minimum deviation the array can have after some transformations.
+
+* Observation
+
+  From the definition, focus the max and min elements and try to reduce the deviation.
+  1. If min element is odd, we can multiply it by 2 and reduce the deviation;
+  2. Also, if max element is even, we can divide it by 2 and reduce the deviation as well.
+  3. Otherwise, we cannot reduce the deviation and have to stop.
+
+* Solution 1: heap
+
+  1. Increase all the odd numbers (multiply by 2), thus we got all even numbers and we can divide by 2 to reduce the maximum element.
+  2. For the max value we use a max heap
+  3. Use a variable to track the min value: whenever a max value is divided, compare it with the current min value.
+     

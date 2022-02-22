@@ -1,0 +1,13 @@
+#+title: Best Time to Buy and Sell Stock IV
+
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
+
+Find the maximum profit you can achieve. You may complete at most k transactions.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+* Analysis
+
+  The "agent" can be in \(2*k\) states: buy_1, sell_1, ..., buy_k, sell_k. And on each day, the agent can decide to buy, hold or sell.
+  On day i, if the agent is in state buy_j, it can decide to sell, and get a max profit sell_j=max(sell_j, buy_j + price[i]), and if the agent is in state sell_j, it can decide
+  to buy and get a max profit buy_{j+1}=max(sell_j - price[i], buy_{j+1}}

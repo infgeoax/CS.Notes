@@ -1,0 +1,35 @@
+#+title: Egg Drop With 2 Eggs and N floors
+
+* Thoughts and approach
+
+  We can try and drop the first egg from level 1 to n, and consider the two possible outcomes for level i:
+  1. the first egg is broken, the max drops are i: 1 (this drop) + at most i - 1 drops, if f equals i - 1.
+  2. the first egg is not broken, the max drops are 1 + min_drops(n - i)
+  We then take the max value of the two for the drops needed if we drop the first egg from level i (i = 1..n)
+  Lastly, we try all the possible drops for the first egg and minimize the max drops, which is the min_drops for n.
+
+  
+** Code
+
+  #+begin_src C++
+  int twoEggDrop(int n) {
+      vector<int> dp(n + 1, 0);
+      dp[1] = 1;
+      for (int i = 2; i <= n; ++i) {
+          int ans = INT_MAX;
+          for (int j = 1; j <= i; ++j) {
+              ans = min(ans, max(j, 1 + dp[i - j]));
+          }
+          dp[i] = ans;
+      }
+      return dp[n];
+  }
+  #+end_src
+
+* Math
+
+  Suppose the minimum drops is $x$, and we drop the first egg at level $L_1$, if it breaks, we start to drop the second egg from level 1 until level $L_1 - 1$,
+  we have total drops $L_1$ in this case. if it did not break, we move to $L_2$ and repeat the process. $L_2 - L_1$ should be one less than $L_1$ as we have
+  already used one drop on $L_1$, similarly, $L_3 - L_2 = L2 - 1$ and so forth. Ideally the sequence should have $x$ items: $L_1, L_2, ..., L_x$, where $L_x =
+  n$. To be continued...
+

@@ -1,0 +1,40 @@
+#+title: Minimum Window Substring
+
+* Solution: sliding window + count chars
+
+  Since the strings contain uppercase and lowercase English letters, we can store the counts in an array of 52 elements.
+  
+  1. Count the chars in string =t=
+  2. Maintain a window =l=, =r= on string =s=;
+  3. first grow =r= until the window contains all characters in =t=;
+  4. then try to shrink the window while it still contains all chars in =t=.
+  5. Update the answer if this window is smaller.
+
+  #+begin_src C++
+  int toIdx(char ch) {
+      if ('a' <= ch && ch <= 'z') {
+          return ch - 'a';
+      }
+      return ch - 'A' + 26;
+  }
+  
+  string minWindow(string s, string t) {
+      vector<int> tc(52, 0);
+      auto tcat = [&tc](char ch) -> int& {
+          return tc[toIdx(ch)];
+      };
+      
+      vector<int> wc(52, 0);
+      auto wcat = [&wc](char ch) -> int& {
+          return wc[toIdx(ch)];
+      };
+
+      for (char ch : t) tcat(ch)++;
+
+      int m = s.length();
+      int l = 0, r = 0;
+      while (r < m) {
+      
+      }
+  }
+  #+end_src

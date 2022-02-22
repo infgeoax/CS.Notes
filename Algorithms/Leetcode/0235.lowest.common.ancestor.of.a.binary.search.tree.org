@@ -1,0 +1,20 @@
+#+title: Lowest Common Ancestor of a Binary Search Tree
+
+Given a BST and two nodes, return their lowest common ancestor in the BST.
+
+Note that the tree is a BST, now we can compare the root value with p and q, if it's between p and q, then root is the answer;
+if root value is less than the min of p and q, then the answer is in the right subtree; otherwise it's in the right subtree.
+
+#+begin_src C++
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+      return helper(root, p, q);
+  }
+
+  TreeNode* helper(TreeNode* root, TreeNode* p, TreeNode* q) {
+      if (p == root || q == root) return root;
+      if (p.val > q.val) swap(p, q);
+      if (root.val > p.val && root.val < q.val) return root;
+      if (root.val < p.val) return helper(root->right, p, q);
+      return helper(root->left, p, q);
+  }
+#+end_src

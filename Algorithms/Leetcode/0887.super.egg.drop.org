@@ -1,0 +1,34 @@
+#+title: Super Egg Drop
+
+* k eggs and n floors.
+
+  Basic recursion relationship.
+  
+  - When k equals 1, the answer is n, because we have to drop 1 egg from first floor until nth floor.
+  - Suppose we drop the egg from floor i \(1 <= i <= n\), and it did not break, then we have \(1 + minDrops(k, n - i)\) -- we still have k eggs for the rest n - i floors.
+  - Otherwise, the drops are 1 + minDrops(k - 1, i - 1), that is k - 1 eggs for the rest i floors. (in the special case where k = 2, the later express equals i - 1)
+
+  Mathematically we have the following recursive equation:
+
+  \(MinDrops(K, N) = 1 + Min_{1 <= x <= N}(Max(MinDrops(K - 1, N - x), MinDrops(K, x - 1)))\)
+
+  Problem is, if we try each drop position from 1 to n, the time complexity is $O(kn^2)$.
+
+* Reduce the search space (binary search + DP)
+
+  Intuition is, the function \(minDrops(k, n)\) increases when n growos. Therefore, we don't have to go through every =i=, because \(minDrops(k, n - i)\) is
+  decreasing in regards to i and \(minDrops(k - i, i - 1)\) is increasing. The goal is to find the minimum value of the max of the two, we can binary search.
+
+  Let \(T_1 = MinDrops(k, n - mid)\) and \(T_2 = MinDrops(k - 1, mid - 1)\), we have three possibilities:
+
+  1. T_1 > T_2: We need to decrease T_1 or increase T_2, so increase mid
+  2. T_1 < T_2: The other way around, decrease mid.
+  3. T_1 = T_2: Found the intersection point.
+
+  Note it's possible there's only two candidate values left for mid, in this case we need to compare both results and keep the minimum.
+
+* Optimality condition
+
+  
+
+  

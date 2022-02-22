@@ -13,3 +13,18 @@
   
 * Solution 1: HashMap + Cumulative Sum
 
+  #+begin_src C++
+  int subArraySums(vector<int>& nums, int k) {
+      int sum = 0;
+      unordered_map<int, int> freq;
+      freq[0] = 1;
+      int ans = 0;
+      for (auto x : nums) {
+          sum += x;
+          auto i = freq.find(sum - k);
+          if (i != freq.end()) ans += i->second;
+          freq[sum]++;
+      }
+      return ans;
+  }
+  #+end_src

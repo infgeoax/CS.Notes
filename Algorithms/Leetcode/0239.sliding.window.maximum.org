@@ -1,0 +1,87 @@
+#+title: Sliding Window Maximum
+
+* Thoughts and initial solution using red-black tree
+
+  The tricky part of this problem is to keep track of the window maximum while moving the window from left to right. We need to
+  support the add/remove and also efficiently get/update the current max.
+
+  One data structure that can support this is a blanced search tree based map, i.e. =map= in C++.
+
+  #+begin_src C++
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        map<int, int> win;
+        vector<int> ans;
+        int n = nums.size();
+        // Initialize the window.
+        for (int i = 0; i < k; ++i) {
+            win[nums[i]]++;
+        }
+        ans.push_back(win.rbegin()->first);
+        for (int i = k; i < n; ++i) {
+            // Remove one nums[i - k] and add nums[i]
+            if (--win[nums[i-k]] == 0) {
+                win.erase(nums[i-k]);
+            }
+            win[nums[i]]++;
+            ans.push_back(win.rbegin()->first);
+        }
+        return ans;
+    }
+  #+end_src
+
+  Time complexity is O(n*log(n))
+
+* Can we do better than this?
+
+  Bitmap + index to the max value?
+
+  or Max stack? When the new number is greater than or equal to the top, push, and when the element to be removed equals the top, pop.
+  What if the second-max element dropped out of the window? We can keep index to the element in the stack instead and ignore those
+  that are located outside the current window.
+
+  Or PriorityQueue of the same idea.
+
+  #+begin_src C++
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        auto cmp = [&nums](int i, int j) {
+            return nums[i] < nums[j];
+        };
+        priority_queue<int, vector<int>, decltype(cmp)> pq(cmp);
+
+        vector<int> ans;
+        int n = nums.size();
+        for (int i = 0; i < k; ++i) {
+            pq.push(i);
+        }
+        ans.push_back(nums[pq.top()]);
+        for (int i = k; i < n; ++i) {
+            pq.push(i);
+            // Find the max that's in the current window.
+            while (pq.top() <= i - k) pq.pop();
+            ans.push_back(nums[pq.top()]);
+        }
+        return ans;
+    }
+  #+end_src
+
+  Or as the official solution suggests: use a deque of decreasing numbers
+
+  #+begin_src C++
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+      deque<int> q;
+      auto enq = [&q,&nums,k](int i) {
+          // Remove front element if it's not in current window.
+          if (!q.empty() && q.front() <= i - k) q.pop_front();
+          while (!q.empty() && nums[i] > nums[q.back()]) q.pop_back();
+          q.push_back(i);
+      };
+      
+      vector<int> ans;
+      int n = nums.size();
+      for (int i = 0; i < n; ++i) {
+          enq(i);
+          if (i >= k) ans.push_back(nums[q.front()]);
+      }
+      return ans;
+  }
+  #+end_src

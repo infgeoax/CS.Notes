@@ -1,0 +1,49 @@
+#+title: Word Ladder
+
+* BFS
+
+  Shortest path starting from a given word. Use a queue to keep track of words to examine; hash table to check if a given word is in the list. Remove examined
+  word from the hash table because we don't need cycles. To generate the next word, we change each character to a different character (25).
+  
+  #+begin_src C++
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> dict(wordList.begin(), wordList.end());
+        if (!contains(dict, endWord)) return 0;
+        queue<pair<string, int>> q;
+        q.push(make_pair(beginWord, 0));
+        while (!q.empty()) {
+            string word = q.front().first;
+            int d = q.front().second;
+            auto nexts = expand(word, dict);
+            for (auto& nw : nexts) {
+                if (nw == endWord) return d + 1;
+                q.push(make_pair(nw, d + 1));
+                dict.erase(word);
+            }
+        }
+        return 0;
+    }
+
+    bool contains(const unordered_set<string>& dict, const string& word) {
+        auto iter = dict.find(word);
+        return iter != dict.end();
+    }
+    vector<string> expand(const string& word, const unordered_set<string>& dict) {
+        vector<string> next;
+        string w {word};
+        int m = w.length();
+        for (int i = 0; i < m; ++i) {
+            for (char c = 'a'; c <= 'z'; ++c) {
+                if (c != word[i]) {
+                    w[i] = c;
+                    if (contains(dict, w)) {
+                        next.push_back(w);
+                    }
+
+                }
+            }
+        }
+        return next;
+    }
+  #+end_src
+  

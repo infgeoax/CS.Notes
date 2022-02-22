@@ -5,8 +5,8 @@
   $i < j$ can be calculated using formula: $nums[j] - nums[i] - j + i$.
   Because
 
-1. The array is sorted and,
-2. All elements are unique.
+  1. The array is sorted and,
+  2. All elements are unique.
 
   To get the k-th missing number, we can binary search the missing
   number count (which is non-decreasing according to its definition), and locate the

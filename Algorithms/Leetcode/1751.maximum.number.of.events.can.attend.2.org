@@ -1,0 +1,41 @@
+#+title: Maximum Number of Events That Can Be Attended II
+
+Can attend at most k events. Each event has a value, events cannot overlap. Maximize the value.
+
+* Analysis (DP?)
+
+  - if k == 0, return 0
+  - if k == 1, return event with max value
+  - if k > 1, consider the first event, events[0], we have two choices: attend event[0] or don't attend events[0]
+    - if attend, the value we get is events[0].value + maxValue(remaining events that don't overlap, k - 1)
+    - if don't attend, the value we get is maxValue(remaining events, k)
+    - pick the max of the two
+
+    #+begin_src C++
+      int n;
+      // Slow version
+      int maxValue(vector<vector<int>>& events, int k) {
+          // Sort by start day
+          sort(events.begin(), events.end(), [](const auto& a, const auto& b) {
+              return a[0] < b[0];
+          });
+          n = events.size();
+          vector<vector<unordered_map<int, int>>> mem(n, vector<unordered_map<int, int>>(k));
+          return helper(events, 0, k, 0, mem);
+      }
+
+      int helper(vector<vector<int>>& events, int i, int k, int lastDay, vector<vector<unordered_map<int, int>>> &mem) {
+          if (k <= 0) return 0;
+          if (i >= n) return 0;
+          auto iter = mem[i][k - 1].find(lastDay);
+          if (iter != mem[i][k - 1].end()) return iter->second;
+
+          int v1 = 0;
+          if (events[i][0] > lastDay) {
+              v1 = events[i][2] + helper(events, i + 1, k - 1, events[i][1], mem);
+          }
+          int v2 = helper(events, i + 1, k, lastDay, mem);
+          return mem[i][k-1][lastDay] = max(v1, v2);
+      }
+    #+end_src
+    

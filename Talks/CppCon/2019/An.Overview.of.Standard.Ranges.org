@@ -1,0 +1,76 @@
+#+title: Tristan Brindle “An Overview of Standard Ranges”
+
+* Range
+
+  That you can call =begin()= and =end()= on it and =begin()= returns an iterator with which you can visit elements in the range.
+
+* Concepts
+
+  Constraints on the template types.
+
+  #+begin_src C++
+    // String convertible concept
+    template<typename T>
+    concept string_convertible = requires(const T& t) {
+        { t.to_string() } -> std::convertible_to<std::string>
+    }
+    template<typename T>
+        requires string_convertible<T>
+    auto convert_to_string(const T& t) {
+        return t.to_string();
+    }
+  #+end_src
+
+* Sentinels
+
+  A type that is =equality_comparable_with= its corresponding iterator, denotes the end of the range.
+
+
+  - =end()= does not necessarily return an iterator, but a sentinel.
+
+  Example:
+  #+begin_src C++
+    const std::string big_string = read_file();
+    // guaranteed to contain '\n'
+    auto get_new_line_pos(const std::string& str) {
+        return std::find(str.begin(), str.end(), '\n');
+    }
+    // and we need a way to communicate to the compiler that the iterator will never reach the end, because read_file() returns
+    // a string that will definitely contain at least one new line character in the end.
+    // Ranges provide a type called =unreachable_sentinel=, which is an sentinel that always returns false when compared with any iterators.
+    auto get_newline_pos(const std::string& str) {
+        return ranges::find(str.begin(),
+                            ranges::unreachable_sentinel, // better code gen
+                            '\n');
+    }
+  #+end_src
+
+* Projections
+
+  A projection is a unary callable that can be passed to most algorithms. It modifies the view of the data that the algorithm sees.
+
+** Exmaple
+  
+  #+begin_src C++
+    struct Employee {
+        std::string name;
+        int id;
+    };
+    struct Payslip {
+        std::string pay_info;
+        int employee_id;
+    };
+
+    std::vector<Employee> employees;
+    std::vector<Payslip> payslips;
+
+    std::ranges::sort(employees, std::ranges::less{}, [](const Employee& e) {return e.id});
+    // std::invoke, replace lambdas with pointer to member.
+    std::ranges::sort(employees, std::ranges::less{}, &Employee::id);
+  #+end_src
+
+  
+* Views
+
+  range adaptors ("views") which offer lazy evaluation.
+

@@ -1,0 +1,14 @@
+#+title: Pacific Atlantic Water Flow
+
+* Analysis (flawed)
+
+  1. The top-right or bottom-left grid can always flow to both oceans.
+  2. If one of its neighbour is higher or equal to these two grids, then that grid can flow to both oceans.
+  3. BFS/DFS to collect all such grids.
+
+  Problem with the analysis is: it does not consider if a cell that can have paths to both oceans but not ends at the two corners.
+
+  Updated solution: BFS on all the edge cells, use a queue to remember the coordinates (r, c) of cells to process, plus a flag indicating which ocean it flows
+  into, note the two corner cells will each have two entries in the queue. We also maintain a grid to remember which oceans each visited cell flows into, using
+  bit manipulation to encode the information in an integer.
+

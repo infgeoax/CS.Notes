@@ -1,0 +1,36 @@
+#+title: Google Systems Design Interview With An Ex-Googler
+
+* Things to remember
+  1. Ask clarifying questions to define the scope (very important).
+  2. Do not lose focus. E.g. when talking about where to store the binary, don't go into details about how to implement the blob storage.
+  3. Estimate resource requirements.
+
+* Task: design a code-deployment system
+  Questions asked:
+  1. Does it need to run tests against the code? (answer: no)
+  2. Global scale, clarify that, anywhere in the world? (5-10 regions)
+  3. How many machines need to deploy the code to? (100k)
+     
+  Requirements
+  1. Global
+  2. Scalable
+  3. rollout/rollback
+  4. Highly Available 99.9% - 99.99%
+  5. 30 minutes for deploy (download, building and rollout to 100k machines)
+
+  Q: How to store the binary? A: blob storage, GCS, or S3
+  Q: How do you implement the queue?
+     1. In memory, bad: data not persisted.
+     2. An SQL table as a queue. ACID transactions to manage concurrency.
+
+        auto increment id
+        commit hash
+        source code repo url
+        creation time
+        status: building, not building
+        index (status, created_at ASC)
+
+        BEGIN TRANSACTION;
+        SELECT * FROM jobs WHERE status='QUEUED' ORDER BY created_at ASC LIMIT 1;
+        UPDATE jobs SET status='RUNNING' WHERE id=?;
+        COMMIT;

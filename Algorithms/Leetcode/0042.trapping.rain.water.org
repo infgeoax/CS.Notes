@@ -1,3 +1,14 @@
 #+title: Trapping Rain Water
 
-* 
+* Solution 1: two pointers and max heights on both sides
+
+  Idea is: we can calculate the trapped water at each position i, provided that we know the maximum height from 0 to i-1, and whether there is a block to the
+  right that's higher than that at position i. Now if we maintain a max height from both sides, and if they are both higher than position i, we know some water
+  can be trapped at position i, the amount is the minimum of the max heights minus the height at i.
+
+  One pointer move from left to right starting at 0, while the other from right to left starting at n - 1.
+  We also keep track of max heights the two pointers have seen.
+
+  
+
+  

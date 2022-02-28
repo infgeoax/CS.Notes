@@ -1,0 +1,12 @@
+#+title: Lowest Common Ancestor of a Binary Tree III
+
+Tree node with parent pointer. Given two nodes, return their lowest common ancestor.
+
+*The blocking part for me is that the nodes can be in different depths, and the solution is obvious when look back: move the deeper node pointer up.*
+
+* Solution: think of them as singly-linked list
+
+  1. Count the length of the node-to-root path for each node.
+  2. "Level" the length, i.e. make the the same, move pointers of the longer path if necessary.
+  3. Move both pointers together return the node where they meet.
+

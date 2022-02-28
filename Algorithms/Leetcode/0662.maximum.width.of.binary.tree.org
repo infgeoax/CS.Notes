@@ -1,0 +1,22 @@
+#+title: Maximum Width of Binary Tree
+
+Given the root of a binary tree, return the maximum width of the given tree.
+
+The maximum width of a tree is the maximum width among all levels.
+
+The width of one level is defined as the length between the end-nodes (the leftmost and rightmost non-null nodes), where the null nodes between the end-nodes
+are also counted into the length calculation.
+
+It is guaranteed that the answer will in the range of 32-bit signed integer. /(But not for the intermediate result)/
+
+* Analysis
+
+  Took me sometime to understand the problem today.
+
+  The idea is to calculate the number of nodes, including nulls, between two non-null end nodes for each level: so the end nodes cannot be null, but it's okay
+  to have null nodes in-between, even null nodes from null parents.
+
+  If we associate each node with an index value as if the tree is serialized into an array, e.g. root is 0, root's left is 1, root's right is 2, and root's
+  left's left is 3, and root's left's right is 4, etc. And we use BFS to process each level, then the width for a given level is easy to calculate.
+
+  Only tricky thing is, signed integer overflow is UB in C++, so have to use unsigned integer when computing the result, but cast it to signed when return.

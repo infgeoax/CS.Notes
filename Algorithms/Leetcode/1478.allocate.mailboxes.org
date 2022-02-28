@@ -1,0 +1,9 @@
+#+title: Allocate Mailboxes
+
+* Analysis
+  
+ 1. If k == n, return 0, we can place one mailbox at each house
+ 2. If we place one mail box between two houses, no matter where it's placed, the total distance from the two houses to the mail box is the
+    distance between the two houses.
+ 3. If we place one mail box between three houses, always place it at the middle house.
+ 4. If we place one mail box between n houses, place it on an index so that the houses on its left equals the houses on its right. Why?

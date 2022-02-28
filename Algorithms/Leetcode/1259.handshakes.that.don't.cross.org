@@ -1,0 +1,21 @@
+#+title: Handshakes that Don't Cross
+
+You are given an even number of people numPeople that stand around a circle and each person shakes hands with someone else so that there are numPeople / 2
+handshakes total.
+
+Return the number of ways these handshakes could occur such that none of the handshakes cross.
+
+Since the answer could be very large, return it modulo 10^9 + 7.
+
+* The Recurence and DP
+
+  Let $f(n)$ be the number of non-crossing handshakes for n people:
+  0. $f(0) = 1$
+  1. $f(2) = 1$
+  2. For n > 2, We can reduce the problem by first pick two people to do the handshake, this effectively divide the circle into two parts, where each one must
+     have even numbers of people: 0, 2, 4, 6, 8, ..., n, f(n) = f(0) * f(n - 2) +  f(2) * f(n-4) + f(4) * f(n-6) + ... + f(n-2) * f(0)
+     f(4) = f(0) * f(2) + f(2) * f(0)
+
+* Catalan Number
+
+  

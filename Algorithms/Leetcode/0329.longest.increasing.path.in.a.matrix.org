@@ -1,0 +1,29 @@
+#+title: Longest Increasing Path in a Matrix
+
+* Problem Description
+  Given an m x n integers matrix, return the length of the longest increasing path in matrix.
+
+  From each cell, you can either move in four directions: left, right, up, or down. You may not move diagonally or move outside the boundary (i.e., wrap-around
+  is not allowed).
+
+* Analysis
+
+  The path can start from any position in the matrix. One naive way is to run a DFS on each m x n cells as the starting point and get the longest path from that
+  point. Of course this approach is not optimal, because there will be lots of repeated calculations. For example, we calculated the longest path from (0, 0),
+  and now we are calculating the longest path for (0, 1), and if we expand its neighbours, which will be (0, 0), (1, 1), (0, 2), we will do the longest path
+  calculation for (0, 0) again! A simple solution to this problem is to remember the results for all the starting point that we have explored, so that no
+  further calculation is required.
+
+* DFS
+
+  Time complexity: O(2 ^ {m + n})
+
+* DFS + memoization
+
+  Time complexity: O(m x n)
+  Space complexity: O(m x n)
+
+  
+* Topological sorting
+
+  Starting from the nodes that don't have predecessors, i.e. the node whose neighbours are less than or equal to it.

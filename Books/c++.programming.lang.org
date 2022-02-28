@@ -172,4 +172,113 @@
 
      - We can have pointer to one-beyond the last element of the array, but not more. Besides, such a pointer can only be used to compare with other pointers to get number of elements.
 
-  8. reinterpret_cast<T>
+  8. Passing arrays
+     - Arrays cannot be passed by value directly, it's passed as a pointer to its first element.
+     - Two-dimensional matrix:
+       #+begin_src C++
+         void print_mi5(int m[][5], int dim1); // second dimension is required for the compiler to generate code for =m[i][j]=
+         void print_mij(int m[][], int dim1, int dim2); // Error: need the second dimension to locate the elements.
+         void print_mij(int *m, int dim1, int dim2); // OK, access element like =m[i * dim2 + j]=, but not so obvious.
+         int test() { // to call print_mij(int*, int, int):
+             int v[3][5] = {
+                 {0,1,2,3,4}, {10,11,12,13,14}, {20,21,22,23,24}
+             };
+             print_mij(&v[0][0], 3, 5); // or v[0]
+         }
+       #+end_src
+  9. Pointers and const
+     - =constexpr=: enable compile time evaluation
+
+     - =const=: immutable objects
+
+     - =const T*=: pointer to immutable T object, pointer can change, object cannot.
+
+     - =T*const=: const pointer to mutable T object, object can change, pointer cannot.
+
+  10. Pointers and ownership
+      - Generally, put a pointer that represents ownership in a resource handle, e.g. =vector=, =string= and =unique_ptr=.
+
+      - Pointers don't always represent valid ownership, e.g. nullptr, pointers that points to invalid locations, or pointers used to access inside of an array, etc.
+
+  11. References
+      - Unlike pointers, references must be initialized to bind to an object, and cannot be bound to another object after initialization. And there's no null reference.
+
+      - Usually implemented as address to the object.
+
+      - /lvalue references/ refer to objects whose value we want to change
+
+      - /const references/ refer to objects whose value we do not want to change
+
+      - /rvalue references/ refer to objects whose value we do not need to preserve after use.
+
+  12. Lvalue references
+
+      - =X&= is a reference type to =X=, it's used to reference to lvalues, /lvalue reference/.
+
+      - *Cannot define an array of references.*
+
+      - Initializer for a non-const reference =T&= must be an lvalue of type =T=, however
+
+      - Initializer for a const reference =const T&= need not be an lvalue or event of type =T=, steps:
+
+        1. Implicit type convertion to =T= if necessary
+
+        2. Result value is placed in a temporary variable of type =T= (which has the life cycle as the reference it's initializing)
+
+        3. finally, this temporary variable is used to initialize the reference.
+
+        4. *This enables pass temporary objects to a function as const references.*
+
+  13. Rvalue reference
+
+      - =string&& rr1{f()}; // bind rr1 to rvalue (a temporary)=
+
+      - Both a =const= lvalue reference and an rvalue reference can bind to an rvalue.
+
+      - Purpose of rvalue references is to implement a "destructive read" for optimization (otherwise copy may happen)
+
+      - Sometimes the programmer knows that an object won't be used again, even though the compiler does not.
+
+        E.g. "old style wap"
+        #+begin_src C++
+          template<class T>
+          void swap(T& a, T& b)
+          {
+              T tmp{a}; // two copies of a
+              a = b; // two copies of b
+              b = tmp; // two copies of tmp (a's initial value)
+          }
+        #+end_src
+
+        If T's copy is expensive, this swap would be expensive. But in this function we can actually do "moves":
+
+        #+begin_src C++
+          template<class T>
+          void swap(T& a, T& b)
+          {
+              T tmp{static_cast<T&&>(a)};
+              a = static_cast<T&&>(b);
+              b = static_cast<T&&>(tmp):
+          }
+        #+end_src
+
+        The above code will use class T's move constructor or move assignment operator.
+
+        =std::move= is introduced to replace =static_cast<T&&>=.
+
+      - Reference collapse (lvalue always wins)
+
+        - =int && &&= is an =int&&=
+
+        - =int & &&= is an =int&=
+
+        - =int && &= is an =int&=
+
+        - =int & &&= is an =int&=
+
+        - *reference to reference can only happen as the result of an alias or a template type argument.*
+
+  14. Pointers and references
+
+      - It's not possible to redefine an operator for a pair of built-in types, such as pointers.
+          

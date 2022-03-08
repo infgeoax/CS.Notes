@@ -1,0 +1,19 @@
+#+title: Smallest Rectangle Enclosing Black Pixels
+
+Given =mxn= binary matrix where =0= represents a white pixel and =1= a black pixel. Also given the location of one of the black pixels, =x= and =y=
+find the area of the smallest rectangle that encloses all the black pxiels.
+
+Time complexity must be less than =O(mn)=.
+
+* Analysis
+
+  To Calculate the area, we need four numbers: (left, top) - (right, bottom)
+
+  - top: minimum of y
+  - bottom: maximum of y
+  - left: minimum of x
+  - right: maximum of x
+
+  - =O(mn)= is easy: DFS/BFS, and update the four numbers along the way.
+
+  - Is there a way to not go through all the nodes?

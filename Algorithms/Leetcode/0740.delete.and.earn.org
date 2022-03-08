@@ -1,0 +1,51 @@
+#+title: Delete and Earn
+
+Given an integer array =nums=. Maximize the number of points by performing the following operations:
+
+- Pick a number =nums[i]= and delete it to earn =nums[i]= points. Afterwards, delete every element equal to =nums[i]-1= and =nums[i]+1=.
+
+* Analysis
+
+  If we have to delete all the numbers that's 1-distance from the picked number, we'd better pick all the occurances of this number.
+
+  For the maximum number =nums[k]=, we can either:
+  1. Use it and earns =nums[k]*count[nums[k]]= points, in this case, we cannot earn points for =nums[k]-1= (we can still earn points for =nums[i]-2=);
+  2. Not use it and earns =0= point, but we can earn points for =nums[k]-1=, if it's better than not picking =nums[k]-1=, etc.
+
+  Now we can write down a recursive relationship for the maximum number in the array:
+
+  1. If x is in the array:
+
+     \(F(x)=max(x*count[x] + F(x-2), F(x-1))\)
+
+  2. Otherwise
+
+     \(F(x) = F(x-1)\)
+
+* Impl
+
+  #+begin_src C++
+    int deleteAndEarn(vector<int>& nums) {
+        vector<int> count(10001, 0);
+        for(int x : nums) ++count[x];
+
+        int use = 0, avoid = 0, prev = -1;
+        for (int i = 1; i <= 10000; ++i) {
+            if (count[i] > 0) {
+                int prevMax = max(use, avoid);
+                int curValue = i * count[i];
+                if (i - 1 == prev) {
+                    use = curValue + avoid; // if pick cur number i, must avoid prev number
+                } else {
+                    use = curValue + prevMax; // If prev number is less than i - 1, we can pick current number AND prev number.
+                }
+                // Do not pick the current number, will get the maximum of prev number's use/avoid.
+                avoid = prevMax;
+                prev = i;
+            }
+        }
+        return max(use, avoid);
+    }
+  #+end_src
+
+

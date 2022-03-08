@@ -1,0 +1,48 @@
+#+title: Morris Traversal
+
+A O(1) space, in-order, binary tree traversal algorithm.
+
+* Tree node definition
+
+  #+begin_src C++
+    struct TreeNode {
+        int val;
+        TreeNode *left;
+        TreeNode *right;
+    };
+  #+end_src
+
+  Given the root of the tree =root=, traverse the tree using constant space.
+  
+* Basic Idea
+
+  Modify a leaf node's right child to point to it's in-order successor.
+
+  #+begin_src C++
+    void morris(TreeNode* root) {
+        while(root) {
+            if (!root->left) {
+                visit(root);
+                root = root->right;
+            } else {
+                TreeNode* t = root->left;
+                while(t->right && t->right != root) t = t->right;
+                if (!t->right) {
+                    // update t->right to point to root
+                    t->right = root;
+                    root = root->left;
+                } else {
+                    // visited all root->left tree
+                    visit(root);
+                    t->right = nullptr;
+                    root = root->right;
+                }
+            }
+        }
+    }
+  #+end_src
+  
+* Application
+  C++ destructor of a Tree may cause stackoverflow if the tree is not well balanced if we recursively call the destructor of each children.
+  Using Morris Traversal can eliminate this problem
+  

@@ -1,0 +1,17 @@
+#+title: Minimum Number of Arrows to Burst Balloons
+
+Balloons are tape to a flat wall (X-Y plane). Balloons are represented as a range (x_start, x_end). An arrow shot directly upward (x) can burst a balloon
+iff. x_start <= x <= x_end.
+
+Return the minimum number of arrows needed to burst all balloons.
+
+* Solution: sort and scan
+
+  1. An arrow can burst multiple balloons if they overlap. In the extreme case, two balloons can be burst if they are placed side-by-side with no gap between
+     them - according to the problem description.
+  2. The problem is now to find the number of non-overlapping balloons, and other balloons all overlap with at least one of them.
+  3. Let's first consider the balloon with the smallest x_end, how many balloons overlap with it? The answer is all the balloons whose x_start is less than or
+     equal to it. In other words, the balloon whose x_start is greater than this x_end does not overlap with this baloon, and to burst them both, we need two
+     arrows.
+  4. Now we need to consider this new baloon with a greater x_end, same problem with less remaining balloons.
+  

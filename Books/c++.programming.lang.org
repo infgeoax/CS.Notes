@@ -282,3 +282,19 @@
 
       - It's not possible to redefine an operator for a pair of built-in types, such as pointers.
           
+* Ch8. Struct, unions and enumerations
+** Structs
+** Unions
+** Enumerations
+  1. =enum class= for which the enum names are local to the enum and do not implicitly convert to other values.
+  2. "Plain enums" for which the enum names are in the same scope as the enum and implicitly converts to integers.
+* Ch9. Statements
+
+  - Declaration is a statement
+  - Expression becomes a statement with a ';' at its
+  - Statements do not have value, unlike expressions.
+  -
+    
+* Ch10. Expressions
+  
+

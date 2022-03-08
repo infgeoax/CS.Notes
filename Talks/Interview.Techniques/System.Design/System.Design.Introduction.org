@@ -1,0 +1,117 @@
+#+title: System Design Introduction for Interview
+
+* Basics
+
+  - Ask good questions
+    - What features to work on (scope) very important.
+    - How much to scale.
+  - Don't use Buzzwords
+    - Backfires
+  - Clear and organized thinking
+    - Make sure to get the big picture right
+  - Drive discussion (80-20 rule)
+    - You should be talking 80% of the time
+    - Interviewer should talk 20% of the time
+
+* Things to consider
+
+** Features
+
+   Define the behaviour of the system. What to include/exclude.
+
+** Define the APIs
+   API to implement the features.
+   Who, how to call the API.
+
+** Availablility
+   How much availability is required. e.g. what if a host went down or a data centre went down.
+
+** Latency performance
+   Response time is important for end user API/services.
+
+** Scalability
+   How does it scale for more users.
+
+** Durability
+   Data are durable, not lost or compromised.
+
+** Class Diagram
+   S.O.L.I.D. principles
+
+** Security & Privacy
+   For authentication services
+
+** Cost effective
+   Trade-offs
+
+* Concepts you need to know
+  - Veritcal (more memory/CPU) vs Horizontal scaling (more hosts)
+  - CAP theorm(!) only two out of three.
+    - Consistency: read always return most recent write
+    - Availability: every request receives a response, no guarantee it's the most recent
+    - Partition tolerance: system continues to operate despite an arbitrary number of messages dropped/delayed by the network between nodes.
+  - ACID vs BASE
+    - ACID: Atomic, Consistent, Isolated and Durable
+    - BASE: Basically available, soft state, Eventually consistent
+  - Partitioning/sharding data
+    - Split the data to multiple nodes
+    - *Consistent hashing* https://en.wikipedia.org/wiki/Consistent_hashing
+  - Optimistic vs Pessimistic Locking
+  - Strong vs Eventually consistency
+  - Relational DB vs NoSql
+  - Types of NoSql
+    - Key-value
+    - Wide-column
+    - Document based
+    - Graph based
+  - Caching
+    - Shared/not shared with different nodes
+  - Data center/Racks/hosts
+  - CPU/memory/harddrive/Network bandwidth
+  - Random vs Sequential read/write on disk
+  - HTTP vs HTTP/2 vs websockets
+  - TCP/IP model
+  - IPv4 vs IPv6
+  - TCP vs UDP
+  - DNS lookup
+  - Https vs TLS
+  - Public key infrastructure & Certificate Authority
+  - Symmetric vs Asymmetric encryption
+  - Load Balancer - L4 vs L7
+    - L7: authentication/smart routing/TLS termination
+  - CDNs and Edge
+  - Bloom filters & count-min sketch
+  - Paxos - consensus over distributed hosts
+    - Zookeeper, leader election
+  - Design patterns & object oriented design
+  - Virutal machines & containers
+  - Publisher-subscriber over queue
+  - Map-reduce
+  - multi-threading, concurrency, locks, synchronization, CAS
+
+* Tools
+
+  - Cassandra - wide-column, scalable
+    - Consistent hashing
+  - MongoDB/Couchbase
+  - MySQL/PostgreSQL
+    - Relational database
+  - Redis
+    - key-value (data structures: hashmap, list, set, skip list...)
+    - Can be configured to take snapshot of data.`
+  - Memcached
+  - Zookeeper
+    - Centralized configuration management
+    - Leader election
+    - Distributed locking
+    - Scale well with reads, but not so good with writes
+  - Kafka
+    - Pub-sub queue
+    - Exactly once, messages ordered in one partition in one topic
+  - Nginx
+  - HAProxy
+  - Solr, Elastic Search (Full text search)
+  - Blob store, S3, GCS
+  - Docker
+    - K8s, container orchestration
+  - Hadoop/Spark

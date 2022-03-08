@@ -1,0 +1,9 @@
+#+title: Maximum Profit in Job Scheduling
+
+* Bottom-up DP
+
+  1. Sort the jobs by their end times
+  2. Define DP[i] as the maximum profit we can get by scheduling the first i jobs
+  3. DP[0] = 0, as we haven't scheduled any jobs.
+  4. DP[i] = max(DP[i - 1], DP[j + 1] + profit[i-1]), note the job to schedule has index i - 1, because the variable i here means the number of jobs.
+     1. Where j is the first job with the end time that's not greater than job i - 1's start time, if we scan from right to left: job i - 2 to 0.

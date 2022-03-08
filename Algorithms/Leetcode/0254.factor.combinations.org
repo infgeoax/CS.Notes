@@ -1,0 +1,17 @@
+#+title: Factor Combinations
+
+Numbers can be regarded as the product of their factors.
+
+For example, 8 = 2 x 2 x 2 = 2 x 4.
+Given an integer n, return all possible combinations of its factors. You may return the answer in any order.
+
+Note that the factors should be in the range [2, n - 1].
+
+* Naive solution
+
+  Suppose S(n) is the set of factor combinations for number n, we have the following recursive relationship:
+
+  S(n) = S(n/2)*[2] Union {[2, n/2]} if n is even, that is, for each combination in the set of factor combinations for n/2, add 2 to it.
+  Then try 3, 5, 7, ... until it's greater than the square root of n.
+
+  We probably can do memoization to reduce the computation.

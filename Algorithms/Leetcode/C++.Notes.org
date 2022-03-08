@@ -1,0 +1,15 @@
+#+title: C++ notes for solving Leetcode problems
+
+* STL
+
+  1. pair<int, int> as key to unordered_map does not work by default. Because C++ does not know how to compute the hash value of a pair structure. Easy way to fix this is:
+     #+begin_src C++
+       struct PairHash {
+           template<typename U, typename V>
+           size_t operator()(const pair<U, V>& p) const {
+               return std::hash<U>()(p.first) ^ std::hash<V>()(p.second);
+           }
+       };
+     #+end_src
+
+     

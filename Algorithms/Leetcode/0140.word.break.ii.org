@@ -1,0 +1,17 @@
+#+title: Word Break II
+
+Given a string =s= and a dictionary of strings =wordDict=, add spaces to =s= to construct a sentence such that each word appears in the dictionary. Return all
+possible sentences in any order. Same word can be reused.
+
+* Trie + backtracking
+
+  Basic idea: scan from left to right until we find a word, add this word and a space if necessary to the result string. If we are looking at the last character
+  when we found a word, add the whole result string (sentence) to the sentence list and return. Otherwise, start from the next character again to try to find
+  the next word - recursive call on a smaller string. But this is not enough when some words can be prefixes of other words in the dictionary, after the
+  recursive call on a smaller problem, we need to continue our scan for the next word until the end of the input string.
+
+  Trie can be used to determine whether we have seen a word or not in O(1) time. If we pass in a trie node together with the input string and current character
+  index, and we keep the trie node "in-sync" with the index, we can determine whether the next character is the last of a word, a middle char of the word or no
+  word is found in the dictionary.
+  
+

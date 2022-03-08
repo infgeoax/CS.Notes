@@ -32,3 +32,15 @@
 * Two pointers (left, right)
   - 1. Two Sum: Sort the array and use two pointers to search for the result. Moving the left pointer to right will increase the sum, while moving the right
     pointer to left will decrease the sum.
+  - 42. Trapping Rain Water
+
+
+* Stack
+
+* Dynamic Programming
+  
+** 1-D DP
+   - 123. Best time to buy and sell Stock III
+     At most two transactions.
+   - 188. Best time to buy and sell Stock IV
+     At most k transactions

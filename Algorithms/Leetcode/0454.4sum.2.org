@@ -1,0 +1,6 @@
+#+title: 4Sum II
+
+* Solution: Hashmap
+
+  Divide the arrays into two groups: (nums1, nums2) and (nums3, nums4). For the first group, calculate and save the (sum, number of (i, j)) mapping into a hashmap.
+  Then for each pair of numbers in the second group, find whether the negative of their sum is in the hashmap, if yes, add the value to the final answer.

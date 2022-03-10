@@ -6,9 +6,54 @@
   right that's higher than that at position i. Now if we maintain a max height from both sides, and if they are both higher than position i, we know some water
   can be trapped at position i, the amount is the minimum of the max heights minus the height at i.
 
-  One pointer move from left to right starting at 0, while the other from right to left starting at n - 1.
-  We also keep track of max heights the two pointers have seen.
+  One pointer move from left to right starting at 0, while the other from right to left starting at n - 1.  We also keep track of max heights the two pointers
+  have seen.
+
+  Time Complexity: O(n), every height is accessed at most twice.
+
+  #+begin_src C++
+    int waterTrapped(vector<int>& heights) {
+        int n = heights.size();
+        int l = 0, r = n - 1;
+        int lmax = -1, rmax = -1;
+        int water = 0;
+        while (l < r) {
+            lmax = max(lmax, heights[l]);
+            rmax = max(rmax, heights[r]);
+            if (lmax < rmax) {
+                water += lmax - heights[l++];
+            } else {
+                water += rmax - heights[r--];
+            }
+        }
+        return water;
+    }
+  #+end_src
 
   
+* Solution 2: min-stack
+  Using a stack to keep track of a decreasing sequence of heights, if the next height is higher than the top of the stack and the stack has more than one
+  element, then some water can be trapped in between current height and the one next to the top. How much? It's the number of heights between current and the
+  height next to the current.
 
-  
+  Time complexity: O(n)
+  Space complexity: O(n), there could be at most n elements in the stack.
+
+  #+begin_src C++
+    int trap(vector<int>& heights) {
+        int n = heights.size();
+        int water = 0;
+        stack<int> stk;
+        for(int i = 0; i < n; ++i) {
+            int h = heights[i];
+            while(!stk.empty() && heights[stk.top()] < h) {
+                int top = stk.top(); stk.pop();
+                if (stk.empty()) break;
+                int blockHeight = min(heights[stk.top()], h) - heights[top];
+                water += blockHeight * (i - stk.top() - 1);
+            }
+            stk.push(i);
+        }
+        return water;
+    }
+  #+end_src

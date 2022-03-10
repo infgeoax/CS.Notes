@@ -1,0 +1,10 @@
+#+title: Find Servers That Handled Most Number of Requests
+
+* Note
+
+  1. Ordered set (RB-tree in C++) to keep track of available servers
+  2. A priority queue that returns the assignment with least end time first, we pop and add the server back to the available set if the current job's start time
+     is not less than the top end time.
+  3. To query the available server, find the first element in the set that's greater than or equal to =i%k= where =i= is the job index, if no such server is
+     found, e.g. all available server ids are less than =i%k=, use the smallest server id - wrapping around.
+  4. *Don't forget to remove the assigned server from available set.*

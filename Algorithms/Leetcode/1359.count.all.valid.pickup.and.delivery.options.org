@@ -1,0 +1,33 @@
+#+title: Count All Valid Pickup and Delivery Options
+
+Given =n= orders, each order consist in pickup and delivery services.
+
+Count all valid pickup/delivery possible sequences such that delivery(i) is always after pickup(i).
+
+Return the answer modulo \(10^9+7\)
+
+* Constructing a valid option from the existing one
+
+  Suppose we already have a valid pickup/delivery option for =n-1=, we want to calculate how many valid options if we add another order \(P_n, D_n\).
+
+  In the =n-1= orders' arrangements, we have \(2n - 2\) elements (either Pickup or Delivery), there are \(2n - 2 + 1\) "slots" where we can place the new order's pickup service.
+  Once the pickup service is placed, suppose it's in position \(i\), where \(0<= i <=2n-2\), then the delivery service has \(2n-1-i\) options. The total options is:
+
+  \(sum_{0<=i<=2n-2}(2n-1-i) = sum_{1<=i<=2n-1}(i) = frac^{(2n-1)*2n}_{2} = n * (2n - 1)\)
+
+  Suppose the number of valid options for =n= orders is \(f(n)\), then:
+
+  \(f(n) = n * (2n-1) * f(n-1)\)
+
+  and \(f(1) = 1\)
+
+  #+begin_src C++
+    const static int M = static_cast<int>(1e9 + 7);
+    int countOrders(int n) {
+        if (n == 1) return 1;
+        int multiplier = n * (2 * n - 1);
+        long long t = countOrders(n - 1);
+        return static_cast<int>((t * multiplier) % M);
+    }
+  #+end_src
+  

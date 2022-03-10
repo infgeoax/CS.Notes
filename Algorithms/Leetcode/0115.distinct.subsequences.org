@@ -1,0 +1,18 @@
+#+title: Distinct Subsequences
+
+Given two strings s and t, return the number of distinct subsequences of s which equals t.
+
+A string's subsequence is a new string formed from the original string by deleting some (can be none) of the characters without disturbing the remaining
+characters' relative positions. (i.e., "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+* Recursive call + memoization
+
+  Let \(f(i, j)\) be the number of distinct subsequences of s[i:] that equal t[j:], now what does \(f\) look like?
+
+  1. if \(j = length(t)\), the value is 1, as we have reached the end of string t.
+  2. if \(i = length(s)\), the value is 0, i.e. there's no more characters in s, but still some "unmatched" characters in t.
+  3. if \(s[i] = t[j]\), the value is \(f(i + 1, j + 1) + f(i + 1, j)\), that is the number of distinct subsequences of s[i+1:] that equal t[j+1:], plus the
+     number of distinct subsequences of s[i+1:] that equal t[j:]. That is, we can skip both, or we can only skip one character in s.
+  4. if \(s[i] != t[j]\), the value is \(f(i + 1, j)\), we cannot skip character in t, as we did not see a match.

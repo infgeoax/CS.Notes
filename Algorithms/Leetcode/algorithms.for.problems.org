@@ -1,0 +1,46 @@
+#+title: Algorithms for Problems
+
+* Binary Search
+  - 302. Smallest Rectangle Enclosing Black Pixels
+    1. If we project the black pixels to the X- or Y-axis, we get a contiguous 1-D region, because all the black pixels are connected.
+    2. Binary search on the for ranges to locate the boundaries. We know (x, y) is black
+       [0, x) for top
+       [x + 1, h) for bottom
+       [0, y) for left
+       [y + 1, w) for right
+* Fast-slow pointers (Floyd's cycle detection)
+  - 141. Linked List Cycle
+  - 142. Linked List Cycle II
+    Return the node where the cycle begins.
+    Some definitions:
+    n: total number of nodes in the list
+    k: number of nodes before the cycle, 0 <= k <= n, when k == n, there's no cycle
+    c: number of nodes in the cycle: k + c = n
+    Now, when fast and slow meet, suppose slow moved x steps, and fast moved 2*x steps, and they met d steps from the cycle's starting point.
+    And we have:
+
+    1. x = k + d
+
+    2. 2*x = k + d + m * c
+
+    3. From 1. and 2.: k + d = m * c => k = m * c - d
+
+    From 3, we know that if we start two pointers again, one from the head and one from the meeting point and move them one step at a time, they will meet at
+    the cycle starting pointer. Why? if we label the cycle starting pointer 0, and its next 1, ... and the last node in the cycle c-1. And suppose we start at
+    node d, and move k steps, or m * c - d steps, we land on the node d + m * c - d == 0 (mod c)
+
+* Two pointers (left, right)
+  - 1. Two Sum: Sort the array and use two pointers to search for the result. Moving the left pointer to right will increase the sum, while moving the right
+    pointer to left will decrease the sum.
+  - 42. Trapping Rain Water
+
+
+* Stack
+
+* Dynamic Programming
+  
+** 1-D DP
+   - 123. Best time to buy and sell Stock III
+     At most two transactions.
+   - 188. Best time to buy and sell Stock IV
+     At most k transactions

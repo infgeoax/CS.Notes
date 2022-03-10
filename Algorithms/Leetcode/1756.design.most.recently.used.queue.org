@@ -1,0 +1,58 @@
+#+title: Design Most Recently Used Queue
+
+Design a queue-like data structure that moves the most recently used element to the end of the queue.
+
+Implement the MRUQueue class:
+
+- =MRUQueue(int n)= constructs the MRUQueue with n elements: [1,2,3,...,n].
+- =int fetch(int k)= moves the kth element (1-indexed) to the end of the queue and returns it.
+
+* Approach
+
+  - =fetch(int k)= involves two operations, 1) remove the k-th element 2) put it to the end of the queue
+
+  Using an array offers O(1) access to any element, but O(n) to move element to the back of the queue.
+
+  A linked list offers O(1) move to the back of the queue, but O(n) to locate the k-th element.
+
+  We can sort of combine the two: linked list to keep all the elements, and a vector of iterators into different parts of the linked list, skipping multiple elements.
+
+#+begin_src C++
+   class MRUQueue {
+   private:
+     using iterator = list<int>::iterator;
+     const int step = 64;
+     int n;
+     list<int> elements;
+     vector<iterator> skips; // index: 0, 64, 128, ...
+
+   public:
+     MRUQueue(int n) : n{n} {
+       for (int i = 1; i <= n; ++i) {
+         auto iter = elements.insert(elements.end(), i);
+         if (i % step == 1) {
+           skips.push_back(iter);
+         }
+       }
+     }
+
+     int fetch(int k) {
+       --k; // convert to 0-based
+       int m = skips.size();
+       // skip until k is less than step
+       int i = k / m;
+       auto iter = skips[i];
+       advance(iter, k);
+       int v = *iter;
+       elements.push_back(v);
+       if (k == 0) {
+         skips[i]++;
+       }
+       while (++i < m) {
+         skips[i]++;
+       }
+       elements.erase(iter);
+       return v;
+     }
+   };
+#+end_src

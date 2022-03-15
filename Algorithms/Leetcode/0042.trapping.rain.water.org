@@ -6,8 +6,8 @@
   right that's higher than that at position i. Now if we maintain a max height from both sides, and if they are both higher than position i, we know some water
   can be trapped at position i, the amount is the minimum of the max heights minus the height at i.
 
-  One pointer move from left to right starting at 0, while the other from right to left starting at n - 1.  We also keep track of max heights the two pointers
-  have seen.
+  Have one pointer move from left to right starting at 0, and another from right to left starting at n - 1. Also need to keep track of max heights the two
+  pointers have seen respectively.
 
   Time Complexity: O(n), every height is accessed at most twice.
 

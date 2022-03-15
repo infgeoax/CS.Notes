@@ -1,0 +1,10 @@
+#+title: Populating Next Right Pointers in Each Node II
+
+* Solution
+
+  The idea is to find the next node on the same level, using the next pointers that's already populated from previous level.
+  - root's next is null
+  - A node's left child's next is the first non-null child of the nodes that's reachable from that node's next pointer, including the right node of itself.
+  - A node's right child's next is the first non-null child of the nodes that's reachable from that node's next pointer, not including itself.
+  - Order of populating the next pointers is important: first populate the right child, then the left child. This ensures the right sub-tree's next pointers are
+    present when processing the left sub-tree.

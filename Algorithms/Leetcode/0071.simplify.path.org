@@ -1,0 +1,7 @@
+#+title: Simplify Path
+
+Given a path starting with '/', simplify it. =.= refers to current directory and =..= refers to the parent directory.
+
+* Stack
+
+  We can use a stack to keep all the path components we've seen so far, and pop the last element if possible when we see =..=, skip =.=, and push new path component.

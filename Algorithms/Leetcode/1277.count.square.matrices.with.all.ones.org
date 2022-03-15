@@ -1,0 +1,6 @@
+#+title: Count Square Submatrices with All Ones
+
+* Solution
+
+  If matrix[i][j] == 1, then the maximum square sub-matrix can be formed is 1 + min(matrix[i-1][j-1], matrix[i][j-1], matrix[i-1][j-1])
+  All such square sub-matrices with (i,j) as its bottom-right element equals the side length of the maximum sub-matrix (i,j).

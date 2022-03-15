@@ -44,3 +44,11 @@
      At most two transactions.
    - 188. Best time to buy and sell Stock IV
      At most k transactions
+   - 1105. Filling bookcase shelves
+     How the i-th book can be placed on the shelf,
+     1. on a separate shelf by itself,
+     2. on the same shelf with the previous books (limited by shelf width and total book
+   - 32. Longest Valid Parentheses
+     Remember to concatenate the previous valid parentheses.
+   - 1277. Count square submatrices with all ones
+     

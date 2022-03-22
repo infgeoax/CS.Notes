@@ -1,0 +1,37 @@
+#+title: Score of Parentheses
+
+Given a balanced parentheses string =s=, return the score.
+
+1. "()" has score 1
+2. AB has score A + B
+3. (A) has score 2 * A
+
+* Solution: two stacks (own solution)
+
+  1. a stack S1 of indices to the left parentheses in the input string
+  2. another stack S2 of a pair of (index, score), which means the score of the balanced string starting at the given index.
+
+  Algorithm works as follows:
+  1. For each characther s[i]
+     If s[i] == '(': push i to S1
+     Else:
+         Set top = S1.pop
+         If i == top + 1, push (i, 1) to S2
+         Else get the sum of all scores from S2 where the corresponding index is greater than top
+              Push S1.top, 2*sum
+
+     Sum all the scores from S2.
+
+* A simpler solution using one stack
+
+  Using a stack to keep track of the scores on the same
+  level. Initially the stack has one 0. Whenever we see a '(', push 0;
+  whenever we see a ')', pop two elements, multiply the top element by
+  2 if it's not zero or use 1, and add it to the second-to-top
+  element, push the result to the stack.
+
+  Result is the top on the stack (should have only one)
+  
+* Couting cores
+
+  Whenever we see a ')', we add 2 to the power of (levels - 1) to the answer.

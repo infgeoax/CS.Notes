@@ -1,6 +1,39 @@
 #+title: Remove Duplicate Letters
 
-Given a string s, remove duplicate letters so that every letter
-appears once and only once. You must make sure your result is the
-*smallest in lexicographical order* among all possible results.
+Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical
+order among all possible results.
 
+* Analysis
+
+  Tricky part is to find the "smallest" result.
+
+  1. Greedy: can determine the result one by one. The left most character is the smallest one with which the suffix of the input string contains all of the
+     characters (including itself). After we found this character, we move on to the next.
+
+  2. When we iterate through the string, if character =s[i] > s[i+1]= and another occurance of character =s[i]= exists later in the string, deleting character
+     =i= will always lead to the optimal solution.
+
+     #+begin_src C++
+       string removeDuplicateLetters(string s) {
+           vector<char> stk;
+           vector<bool> seen(26, false);
+           vector<int> lastOccur(26, 0);
+           int n = s.length();
+           for (int i = 0; i < n; ++i) lastOccur[s[i]-'a'] = i;
+           for (int i = 0; i < n; ++i) {
+               char ch = s[i];
+               if (!seen[ch-'a']) {
+                   while (!stk.empty() && stk.back() > ch && lastOccur[stk.back() - 'a'] > i) {
+                       seen[stk.back() - 'a'] = false;
+                       stk.pop_back();
+                   }
+                   stk.push_back(ch);
+                   seen[ch-'a'] = true;
+               }
+           }
+           string ans;
+           for (char ch : stk) ans.push_back(ch);
+           return ans;
+       }
+     #+end_src
+     

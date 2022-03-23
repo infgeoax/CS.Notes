@@ -1,0 +1,33 @@
+#+title: Binary Tree Postorder Traversal
+
+* Iterative + Stack
+
+  1. Push all the left child from root to stack, until root is null
+  2. If root is null, and there's still node on the stack
+     1. If the node on the top has a right child, and 
+  
+  #+begin_src C++
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> answer;
+
+        stack<TreeNode*> stk;
+        TreeNode* last = nullptr;
+        while (root || !stk.empty()) {
+            if (root) {
+                stk.push(root);
+                root = root->left;
+            } else {
+                TreeNode* t = stk.top();
+                if (t->right && last != t->right) {
+                    root = t->right;
+                } else {
+                    answer.push_back(t->val);
+                    last = t;
+                    stk.pop();
+                }
+            }
+        }
+
+        return answer;
+    }
+  #+end_src

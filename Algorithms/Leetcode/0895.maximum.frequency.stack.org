@@ -1,0 +1,15 @@
+#+title: Max Frequency Stack
+
+Desing a stack-like data structure to push elements to the stack and pop the most frequent element from the stack.
+
+* Solution 1: Priority queue + hashtable
+
+  Hashtable to store each element's frequency and priority queue to order the elements by frequency
+
+  1. push: increment freq of val, push (freq, push_order, val) to the priority
+  2. pop: decrement freq of top val
+
+  
+* Solution 2: "Stack" of Stacks
+
+  Idea is to keep one stack for each frequency value and when pop, pop the stack on the largest frequency first.

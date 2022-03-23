@@ -1,0 +1,18 @@
+#+title: Distinct Subsequences II
+
+* Dynamic Programming
+
+  Intuition: Consider the number of distinct subsequences for the prefix of length n, 0 <= n <= input length
+  - count[0] = 1 (empty string)
+  - count[i] = 2 * count[i-1] - repeat
+  
+'abcb'
+
+0: ''
+1: '', 'a'
+2: '', 'a', 'b', 'ab'
+3: '', 'a', 'b', 'ab', 'c', 'ac', 'bc', 'abc'
+4: '', 'a', 'b', 'ab', 'c', 'ac', 'bc', 'abc'
+   'b', 'ab', 'bb', 'abb', 'cb', 'acb', 'bcb', 'abcb'
+   Duplicate: 'b' and 'ab'.
+

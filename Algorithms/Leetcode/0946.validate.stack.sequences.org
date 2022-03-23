@@ -1,0 +1,40 @@
+#+title: Validate Stack Sequences
+
+Give two arrays of integers =pushed= and =popped= each with distinct values, return true if this could have been the result of a sequence of push and pop
+operations on an initially empty stack, or false otherwise.
+
+* Solution 1: simulation + hashmap
+
+  Basic idea is to simulate the process that generated the =popped= array from =pushed= using a stack. To do this, we need to keep track of the number of
+  elements pushed into the stack at a given time, denote it =i=. Now for each element =popped[j]= in the popped array from left to right, there are several ways
+  that we can generate it from the current state of the stack:
+  1. popped[j] == pushed[i], increase i and j.
+  2. popped[j] appears after pushed[i], we push everything from i to the position where popped[j] appear in the pushed array
+  3. Stack is not empty and popped[j] is the top element of the stack, we pop the stack
+  4. popped[j] is in the stack and not the top element, invalid sequence, we cannot produce the specific popped sequence.
+
+  Actually 1 and 2 can be combined into one situation: popped[j] appears in position k in the pushed array and k >= i
+
+  To do fast position query, we remember each element's position in the pushed array using a hashmap.
+
+  #+begin_src C++
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        int n = pushed.size();
+        unordered_map<int, int> idx;
+        for (int i = 0; i < n; ++i) idx[pushed[i]] = i;
+        stack<int> stk;
+        int i = 0; // number of elements pushed into the stack
+        for (int x : popped) {
+            int k = idx[x];
+            while (i <= k) { // x not yet pushed to stack, push everything before x and x itself.
+                stk.push(pushed[i++]);
+            }
+            if (stk.empty() || stk.top() != x) {
+                return false;
+            }
+            // stk not empty and top() == x
+            stk.pop();
+        }
+        return true;
+    }
+  #+end_src

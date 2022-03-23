@@ -1,0 +1,27 @@
+#+title: New 21 Game
+
+Alice plays the following game, loosely based on the card game "21".
+
+Alice starts with 0 points and draws numbers while she has less than k
+points. During each draw, she gains an integer number of points
+randomly from the range [1, maxPts], where maxPts is an integer. Each
+draw is independent and the outcomes have equal probabilities.
+
+Alice stops drawing numbers when she gets k or more points.
+
+Return the probability that Alice has n or fewer points.
+
+Answers within 10^-5 of the actual answer are considered accepted.
+
+* Analysis
+
+  When the game stops, alice will have k to k + maxPts - 1 points (inclusive)
+
+  If we calculate the cumulative probability for points 1 to k +
+  maxPts - 1, =F(pt)=, which means the probability that alice will
+  have at least =pt= points. The probability that alice will have n or
+  fewer points is =F(n) - F(k-1)=
+
+  
+  
+

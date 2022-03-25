@@ -1,0 +1,12 @@
+#+title: Build Array Where You Can Find The Maximum Exactly K Comparisons (Updates)
+
+* Notes
+  1. The title is a bit misleading, as the cost is only calculated when the maximum is actually updated.
+  2. This looks quite like the stick arrangement problem. K updates corresponds to the k visible sticks (visible means it's greater than any of the previous
+     sticks)
+  3. Differences is we can decide the length of the sticks.
+  4. k is at least 1 and at most m
+  5. Given the maximum element we've chosen, we have two choices: a) choose something that's bigger b) chose something that's smaller/equal. Option a) will
+     increase the comparisons where option b) will not.
+  6. For option a), we can choose max(1, maxSoFar + 1) to m - k + 1
+  7. For option b), we can choose 1 to maxSoFar

@@ -12,3 +12,7 @@ Your task is to form target using the given words under the following rules:
 Notice that you can use multiple characters from the same string in words provided the conditions above are met.
 
 Return the number of ways to form target from words. Since the answer may be too large, return it modulo 109 + 7.
+
+* Recursion + memo
+
+  Build a map of frequencies of any char at any index, use this to speed up the calculation.

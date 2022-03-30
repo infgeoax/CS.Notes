@@ -53,5 +53,9 @@
    - 32. Longest Valid Parentheses
      Remember to concatenate the previous valid parentheses.
    - 1277. Count square submatrices with all ones
+     
+** Double DP
+   - 1278 Palindrome Partionting III
 * Greedy
   - 0316 Remove duplicate letters (returning the smallest result)
+  - 1029 Two City Scheduling: always pick the city with smaller cost.

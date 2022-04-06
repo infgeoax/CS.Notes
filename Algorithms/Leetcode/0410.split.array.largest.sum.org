@@ -1,0 +1,61 @@
+#+title: Split Array largest Sum
+
+* DP
+
+  Each state can be identified by the number of subarrays k and the current element index i. Idea is we iterate through all the possible lengths of the *first*
+  subarray and calculate the min largest sum in this situation - with a smaller problem to calculate the answer for (k-1, i + 1), (k-1, i+2)....
+
+  Bottom-up approach would start from k = 1, 2, ..., m
+
+* Binary Search
+
+  A completely different approach that's based on this observation: the minimum number of subarrays we can get decreases when the largest sum of those subarrays
+  increases.
+
+  For a given sum bound, what's the minimum number of subarrays that we can get? In other words, if we group as many elements together as possible into one
+  subarray as long as their sum does not exceed the bound, what's the number of subarrays we can get?
+
+  Let that number be =c=, now if c is less than or equal to =m=, we know the bound can be decreased. Why? In the worst case, every subarray sum is equal to the
+  bound, and decreasing the bound will certainly increase =c=, as the first subarray will contain less elements, and those elements must go to the next, and so
+  on.
+
+  On the other hand, if =c= is greater than =m=, we need to increase the bound so that we can possibly accomodate more elements in each subarray.
+
+  This approach requires that every element be positive, which means more elements generally means larger sum for a subarray.
+
+  One last problem is how do we determine the initial bounds. The smallest bound is the largest element, because any bound smaller than that cannot hold the
+  largest element. The largest bound is just the sum of all the elements.
+
+  #+begin_src C++
+    int countSplits(vector<int>& nums, int bound) {
+        int c = 0; // number of splits in the array.
+        int curSum = 0;
+        for (auto x : nums) {
+            if (curSum + x <= bound) {
+                 curSum += x;
+            } else {
+                 ++c;
+                 curSum = x;
+            }
+        }
+        return c + 1; // number of subarrays
+    }
+    int splitArray(vector<int>& nums, int m) {
+        int l = *max_element(nums.begin(), nums.end());
+        int r = accumulate(nums.begin(), nums.end(), 0);
+        while (l <= r) {
+            int bound = l + (r - l)/2;
+            int c = countSplits(nums, bound);
+            if (c <= m) {
+                r = bound - 1;
+            } else {
+                l = bound + 1;
+            }
+        }
+        // in the last loop, l == r == bound, there are two ways to end the loop:
+        // 1. r decreased to bound-1, when c(bound) <= m, the answer is bound == r + 1
+        // 2. l increased to bound+1, when c(bound) > m, the answer is bound + 1 == r + 1
+        return r + 1;
+    }
+
+  #+end_src

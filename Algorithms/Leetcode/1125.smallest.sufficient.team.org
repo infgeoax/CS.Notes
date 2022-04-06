@@ -1,0 +1,6 @@
+#+title: Smallest Sufficient Team
+
+* States
+
+  For each person i, we can either choose this person and set all the skills, or we don't choose this person. We also need to consider the current skills
+  covered.

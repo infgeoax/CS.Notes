@@ -1,0 +1,17 @@
+#+title: Meeting Rooms II
+
+Given an array of meeting time intervals [start_i,end_i], return the minimum number of conference rooms required.
+
+* Greedy min-priority queue
+
+  Sort meetings by increasing start time.
+
+  Use a priority queue of meetings with the meeting with the earliest end time at the top. Process the meetings one by one
+  if the queue is not empty and the meeting at the top ended before the current meeting starts, pop the top meeting. Then push the
+  current meeting.
+
+  And the final queue size is the min number of rooms required.
+
+  Intuition: schedule meetings by their start time, and pop the meeting from queue by their end time. When a next meeting starts
+  after the first meeting that ends, we can reuse the meeting room without increasing the number of rooms required. But if no meeting
+  ends before the new meeting starts, we have to allocate a new meeting room.

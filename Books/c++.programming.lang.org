@@ -293,8 +293,31 @@
   - Declaration is a statement
   - Expression becomes a statement with a ';' at its
   - Statements do not have value, unlike expressions.
-  -
     
 * Ch10. Expressions
-  
 
+** Constant Expressions (Since C++11)
+  - Constant Expressions (constexpr) are evaluated by the compiler.
+  - It's all about values, no assignment, no modification of state, no side effects.
+  - Literal Types: class with a =constexpr= constructor is called a literal type.
+  - =constexpr= functions can take arguments of literal types.
+  - const references can also appear in constexpr:
+
+    #+begin_src C++
+      template<> class complex<double> {
+      public:
+          constexpr complex(const complex<float>&);
+          explicit constexpr complex(const complex<long double>&);
+      }
+    #+end_src
+  - Address constant expressions
+
+    The address of a statically allocated object is a constant, however its value is assigned by the linker, so the compiler cannot know the value of such an
+    address.
+
+    #+begin_src C++
+      constexpr const char* p1 = "asdf";
+      constexpr const char* p2 = p1; // OK
+      constexpr const char* p3 = p1 + 2; // error: the compiler does not know the value of p1
+      constexpr const char c = p1[2]; // OK, c=='d', the compiler knows the value pointed to by p1
+    #+end_src

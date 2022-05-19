@@ -2,7 +2,7 @@
 
 * Solution: sliding window + count chars
 
-  Since the strings contain uppercase and lowercase English letters, we can store the counts in an array of 52 elements.
+  Since the strings contain only uppercase and lowercase English letters, we can store the counts in an array of 52 elements.
   
   1. Count the chars in string =t=
   2. Maintain a window =l=, =r= on string =s=;

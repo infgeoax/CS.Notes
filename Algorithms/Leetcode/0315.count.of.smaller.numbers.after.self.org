@@ -1,0 +1,13 @@
+#+title: Count of Smaller Numbers After Self
+
+* Analysis
+
+  The problem is basically try to count the frequency of elements in a given range while we add more elements to the set. Similar to range sum where each element is either 1 or 0.
+
+* Binary Indexed Trees
+
+  Efficiently update an element and query prefix sum in O(log(n)) time.
+
+  BIT are represented as an array, each element in the array stores the sum of some elements of the input array.
+
+  

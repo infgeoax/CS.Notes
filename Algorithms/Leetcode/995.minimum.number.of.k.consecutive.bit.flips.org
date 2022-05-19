@@ -1,0 +1,5 @@
+#+title: Minimum Number of K Consecutive Bit Flips
+
+* Analysis
+
+  Greedily flip k bits from A[i] if required.

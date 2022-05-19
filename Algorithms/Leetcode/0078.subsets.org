@@ -6,7 +6,8 @@ Generate all subsets of a given array with unique elements (power set).
 
   The size of the power set is $2^n$.
 
-  One easy way to generate this set (for small n) is to iterate from 0 to $2^(n-1)$ and choose the numbers from the original array by the bits pattern (1-choose, 0-don't choose).
+  One easy way to generate this set (for small n) is to iterate from 0 to $2^(n-1)$
+  and choose the numbers from the original array by the bits pattern (1-choose, 0-don't choose).
 
   #+begin_src C++
     vector<vector<int>> subsets(vector<int>& nums) {

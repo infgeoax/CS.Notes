@@ -33,7 +33,7 @@
   
 * Solution 2: min-stack
   Using a stack to keep track of a decreasing sequence of heights, if the next height is higher than the top of the stack and the stack has more than one
-  element, then some water can be trapped in between current height and the one next to the top. How much? It's the number of heights between current and the
+  element, then some water can be trapped in between current height and the one next to the top. How much? It's the difference of heights between current and the
   height next to the current.
 
   Time complexity: O(n)

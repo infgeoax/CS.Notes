@@ -3,7 +3,7 @@
 * DP (sort of) Kadane's algorithm
 
   Iterating through the array, we keep track of the maximum sum that ends at the current location. We calculate this value from its previous one. Now, if the
-  previous value is negative, we simply "reset" the value to the current element - because the sum would be smaller.
+  previous value is negative, we simply "reset" the value to the current element - because the sum will be smaller if we include it.
 
   #+begin_src C++
     int maxSubArray(vector<int>& nums) {
